@@ -8,4 +8,5 @@ class ForTheWinApplication
 
 fun main(args: Array<String>) {
 	runApplication<ForTheWinApplication>(*args)
+	println("Running...")
 }
