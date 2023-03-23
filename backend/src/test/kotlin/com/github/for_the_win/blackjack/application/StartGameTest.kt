@@ -11,10 +11,9 @@ class StartGameTest {
     @Test
     fun whenStartingAGame_thenPlayersShouldHaveScoreZero() {
         val players = getMockPlayers()
-        val testGameId = GameId(UUID.randomUUID())
-        val newGame: Game = StartGame().invoke(testGameId, players)
+        val newGame: Game = getNewGame(players)
 
-        newGame.players.forEach { p ->
+        newGame.players.values.forEach { p ->
             Assertions.assertEquals(0, p.score.value)
         }
 
@@ -23,10 +22,9 @@ class StartGameTest {
     @Test
     fun whenStartingAGame_thenPlayersShouldHave200Cash() {
         val players = getMockPlayers()
-        val testGameId = GameId(UUID.randomUUID())
-        val newGame: Game = StartGame().invoke(testGameId, players)
+        val newGame: Game = getNewGame(players)
 
-        newGame.players.forEach { p ->
+        newGame.players.values.forEach { p ->
             Assertions.assertEquals(200, p.cash.value)
         }
 
@@ -35,16 +33,30 @@ class StartGameTest {
     @Test
     fun whenStartingAGame_thenShouldHave2FullDecks() {
         val players = getMockPlayers()
-        val testGameId = GameId(UUID.randomUUID())
-        val newGame: Game = StartGame().invoke(testGameId, players)
+        val newGame: Game = getNewGame(players)
 
         val deckSize = 104
 
         Assertions.assertEquals(deckSize, newGame.availableCards.cards.size)
     }
 
+    @Test
+    fun whenStartingAGame_thenTheGameStageShouldBeInitialBet() {
+        val players = getMockPlayers()
+        val newGame: Game = getNewGame(players)
+
+        Assertions.assertEquals(GameStage.INITIAL_BET, newGame.stage)
+    }
+
+    private fun getNewGame(
+        players: List<Player>,
+    ) = StartGame().invoke(GameId(UUID.randomUUID()), players)
+
     private fun getMockPlayers(): List<Player> {
-        return listOf(Player(PlayerName("Jon"), PlayerCash(200)), Player(PlayerName("Doe"), PlayerCash(200)))
+        return listOf(
+            Player(PlayerId(UUID.randomUUID()), PlayerName("Jon"), Money(200)),
+            Player(PlayerId(UUID.randomUUID()), PlayerName("Doe"), Money(200))
+        )
     }
 
 }

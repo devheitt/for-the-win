@@ -17,4 +17,3 @@ open class EntityId(val value: UUID) {
     }
 
 }
-

@@ -3,7 +3,7 @@ package com.github.for_the_win.blackjack.domain
 import com.github.for_the_win.blackjack.domain.exceptions.EmptyDeckException
 
 class Deck(numberOfDecks: Int = 1) {
-    var size: Int = 0
+    val size: Int
         get() = cards.size
     val cards: MutableList<Card> = mutableListOf()
 
