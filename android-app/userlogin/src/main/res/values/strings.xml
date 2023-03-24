@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">UserLogin</string>
+    <string name="login_button_text">LOG IN</string>
+    <string name="signup_button_texts">SIGN UP</string>
+</resources>
