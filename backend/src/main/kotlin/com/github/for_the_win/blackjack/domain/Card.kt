@@ -8,6 +8,8 @@ enum class CardSuit {
 }
 
 open class Card(val suit:CardSuit, val value: Int, val label: String) {
+    var hidden: Boolean = false
+
     override fun toString(): String {
         return "Card(suit=$suit, value=$value, label='$label')"
     }

@@ -4,14 +4,11 @@ import com.github.for_the_win.blackjack.domain.exceptions.IllegalActionException
 import com.github.for_the_win.blackjack.domain.exceptions.PlayerNotFoundException
 
 class Game(val id: GameId, val players: Map<PlayerId, Player>) {
-    var stage: GameStage
-    val availableCards: Deck = Deck(2)
-    val bets: MutableMap<PlayerId, Money> = mutableMapOf()
-    val croupierCards: MutableList<Card> = mutableListOf()
+    var state: GameState
 
     init {
-        availableCards.shuffle()
-        stage = GameStage.INITIAL_BET
+        val deck = Deck(2).apply { shuffle() }
+        state = GameState(deck = deck)
     }
 
     companion object {
@@ -24,33 +21,37 @@ class Game(val id: GameId, val players: Map<PlayerId, Player>) {
         val player = players[playerId] ?: throw PlayerNotFoundException()
         assertValidGameStage()
         player.bet(amount)
-        bets[playerId] = amount
-        if(bets.size == players.size)
+        state.bets[playerId] = amount
+        if (state.bets.size == players.size)
             nextStage()
     }
 
     private fun assertValidGameStage() {
-        if (stage != GameStage.INITIAL_BET) throw IllegalActionException()
+        if (state.stage != GameStage.WAITING_BETS) throw IllegalActionException()
     }
 
     private fun nextStage() {
-        if(stage == GameStage.INITIAL_BET) {
+        if (state.stage == GameStage.WAITING_BETS) {
             initGame()
         }
 
     }
 
+    private fun croupierHasAs(): Boolean = state.croupierCards[1] is AS
+
     private fun initGame() {
-        stage = GameStage.ON_GOING
-        croupierCards.add(availableCards.takeCard())
-        players.values.forEach{
-            it.cards.add(availableCards.takeCard())
+        state.stage = GameStage.PLAYING
+        state.croupierCards.add(state.deck.takeCard())
+        players.values.forEach {
+            it.cards.add(state.deck.takeCard())
         }
-        croupierCards.add(availableCards.takeCard())
-        players.values.forEach{
-            it.cards.add(availableCards.takeCard())
+        state.croupierCards.add(state.deck.takeCard())
+        players.values.forEach {
+            it.cards.add(state.deck.takeCard())
         }
-        println(croupierCards)
+        if (state.croupierCards[1] is AS) {
+            state.croupierCards[0].hidden = true
+        }
     }
 
 }

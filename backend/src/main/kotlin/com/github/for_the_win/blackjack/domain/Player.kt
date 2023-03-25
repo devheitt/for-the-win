@@ -37,5 +37,11 @@ data class Player(val id: PlayerId, val name: PlayerName, var cash: Money) {
         cashBet = cashBet.plus(bet)
     }
 
+    companion object {
+        fun fromPrimitives(id: String, name: String, cash: Int): Player {
+            return Player(PlayerId(id), PlayerName(name), Money(cash))
+        }
+    }
+
 }
 
