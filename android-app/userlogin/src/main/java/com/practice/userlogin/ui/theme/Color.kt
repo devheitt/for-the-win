@@ -7,7 +7,11 @@ val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
-val Skyblue = Color(0xFF00B2FF)
-val Blue = Color(0xFF1E4564)
-val DarkerBlue = Color(0xFF253C4C)
-val TealSkyblue = Brush.verticalGradient(listOf(Color(0xFF03DAC5), Color(0xFF00B2FF)))
+
+//DARK BLUE CYAN PALETTE
+val Skyblue = Color(0xFF00B2FF) //Primary
+val DarkerBlue = Color(0xFF253C4C) //Secundary
+val Blue = Color(0xFF1E4564) //Background
+val TealSkyblue = Brush.verticalGradient(listOf(Color(0xFF03DAC5), Color(0xFF00B2FF)))//Buttons
+
+
