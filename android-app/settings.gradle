@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "for-the-win"
 include ':app'
-include ':userlogin'

@@ -14,12 +14,10 @@ import com.github.for_the_win.ui.theme.ForthewinTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.practice.userlogin.ui.navigation.Destinations
-import dagger.hilt.android.AndroidEntryPoint
+import com.github.for_the_win.ui.navigation.Destinations
 
 @ExperimentalAnimationApi
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,16 +29,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //Greeting("Android")
                     HomeScreen()
-                }
-                val navController = rememberAnimatedNavController()
-
-                BoxWithConstraints {
-                    AnimatedNavHost(
-                        navController = navController,
-                        startDestination = Destinations.Home.route
-                    ){
-
-                    }
                 }
             }
         }
