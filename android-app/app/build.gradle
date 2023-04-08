@@ -1,9 +1,10 @@
 plugins {
+    id("kotlin-kapt")
+    id 'com.google.dagger.hilt.android'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-//    id 'dagger.hilt.android.plugin'
-    id "kotlin-android"
-//    id 'kotlin-kapt'
+    id 'kotlin-android'
+
 }
 
 android {
@@ -58,18 +59,18 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.4.0'
     implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
+    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-/*
-    //Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
- */
+    //Dagger Hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -78,9 +79,7 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     implementation "com.google.accompanist:accompanist-navigation-animation:0.16.0"
 }
-/*
+
 kapt {
     correctErrorTypes = true
 }
-
- */

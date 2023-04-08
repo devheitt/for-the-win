@@ -46,44 +46,9 @@ class SignUpActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = colors.background
                 ) {
-                    SignUpScreen()
+                    //SignUpScreen()
                 }
             }
         }
-    }
-}
-
-@ExperimentalAnimationApi
-fun NavGraphBuilder.addSignUp(
-    navController: NavHostController
-){
-    composable(
-        route = Destinations.SignUp.route,
-        enterTransition = { _, _ ->
-            slideInHorizontally (
-                initialOffsetX = { 1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        exitTransition = { _, _ ->
-            slideOutHorizontally (
-                targetOffsetX = { -1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        popEnterTransition = { _, _ ->
-            slideInHorizontally (
-                initialOffsetX = { -1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        popExitTransition = { _, _ ->
-            slideOutHorizontally (
-                targetOffsetX = { 1000 },
-                animationSpec = tween( 500 )
-            )
-        }
-    ){
-        SignUpScreen()
     }
 }

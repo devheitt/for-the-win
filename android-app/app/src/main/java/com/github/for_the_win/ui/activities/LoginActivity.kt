@@ -53,45 +53,12 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+                    //LoginScreen()
                 }
             }
         }
     }
 }
 
-@ExperimentalAnimationApi
-fun NavGraphBuilder.addLogin(
-    navController: NavHostController
-){
-    composable(
-        route = Destinations.Login.route,
-        enterTransition = { _, _ ->
-            slideInHorizontally (
-                initialOffsetX = { 1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        exitTransition = { _, _ ->
-            slideOutHorizontally (
-                targetOffsetX = { -1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        popEnterTransition = { _, _ ->
-            slideInHorizontally (
-                initialOffsetX = { -1000 },
-                animationSpec = tween( 500 )
-            )
-        },
-        popExitTransition = { _, _ ->
-            slideOutHorizontally (
-                targetOffsetX = { 1000 },
-                animationSpec = tween( 500 )
-            )
-        }
-    ){
-        LoginScreen()
-    }
-}
+
 

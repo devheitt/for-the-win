@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,102 +19,39 @@ import com.github.for_the_win.ui.theme.ForthewinTheme
 
 @Composable
 fun HomeScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Card Game",
+    MaterialTheme {
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally),
-            style = TextStyle(
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Welcome to my App!",
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                color = Color.Black
             )
-        )
-        Spacer(Modifier.height(32.dp))
-        Button(
-            onClick = { /* Do something */ },
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(
-                    color = Color(0xFF444444),
-                    shape = RoundedCornerShape(30.dp)
-                ),
-            contentPadding = PaddingValues(12.dp)
-        ) {
             Text(
-                text = "New Game",
-                color = Color.White,
+                text = "This is the home screen",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
-        }
-        Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = { /* Do something */ },
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(
-                    color = Color(0xFF444444),
-                    shape = RoundedCornerShape(30.dp)
-                ),
-            contentPadding = PaddingValues(12.dp)
-        ) {
-            Text(
-                text = "Load Game",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = { /* Do something */ },
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(
-                    color = Color(0xFF444444),
-                    shape = RoundedCornerShape(30.dp)
-                ),
-            contentPadding = PaddingValues(12.dp)
-        ) {
-            Text(
-                text = "Settings",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = { /* Do something */ },
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(
-                    color = Color(0xFF444444),
-                    shape = RoundedCornerShape(30.dp)
-                ),
-            contentPadding = PaddingValues(12.dp)
-        ) {
-            Text(
-                text = "Exit",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            Button(
+                onClick = { /*TODO*/ },
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .background(Color.White)
+                    .padding(10.dp)
+            ) {
+                Text(
+                    text = "Go to Login",
+                    fontSize = 16.sp,
+                    color = Color.Black
+                )
+            }
         }
     }
 }
