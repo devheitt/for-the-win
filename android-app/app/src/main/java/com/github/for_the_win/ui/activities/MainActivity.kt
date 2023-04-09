@@ -1,14 +1,14 @@
 package com.github.for_the_win.ui.activities
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -16,12 +16,15 @@ import com.github.for_the_win.ui.navigation.Destinations
 import com.github.for_the_win.ui.presentation.home.HomeScreen
 import com.github.for_the_win.ui.presentation.login.LoginScreen
 import com.github.for_the_win.ui.presentation.login.LoginViewModel
+import com.github.for_the_win.ui.presentation.signup.SignUpViewModel
 import com.github.for_the_win.ui.theme.ForthewinTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.practice.userlogin.ui.presentation.login.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.accompanist.navigation.animation.navigation
+
 
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -56,27 +59,39 @@ fun NavGraphBuilder.addLogin(
 ) {
     composable(
         route = Destinations.Login.route,
-        enterTransition = { _, _ ->
+        enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { 1000 },
                 animationSpec = tween(500)
             )
+            fadeIn(
+                animationSpec = tween(500)
+            )
         },
-        exitTransition = { _, _ ->
+        exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -1000 },
                 animationSpec = tween(500)
             )
+            fadeOut(
+                animationSpec = tween(500)
+            )
         },
-        popEnterTransition = { _, _ ->
+        popEnterTransition = {
             slideInHorizontally(
                 initialOffsetX = { -1000 },
                 animationSpec = tween(500)
             )
+            fadeIn(
+                animationSpec = tween(500)
+            )
         },
-        popExitTransition = { _, _ ->
+        popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { 1000 },
+                animationSpec = tween(500)
+            )
+            fadeOut(
                 animationSpec = tween(500)
             )
         }
@@ -110,32 +125,41 @@ fun NavGraphBuilder.addSignUp(
 ) {
     composable(
         route = Destinations.SignUp.route,
-        enterTransition = { _, _ ->
+        enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { 1000 },
                 animationSpec = tween(500)
             )
         },
-        exitTransition = { _, _ ->
+        exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -1000 },
                 animationSpec = tween(500)
             )
         },
-        popEnterTransition = { _, _ ->
+        popEnterTransition = {
             slideInHorizontally(
                 initialOffsetX = { -1000 },
                 animationSpec = tween(500)
             )
         },
-        popExitTransition = { _, _ ->
+        popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { 1000 },
                 animationSpec = tween(500)
             )
         }
     ) {
-        //SignUpScreen()
+
+        val viewModel: SignUpViewModel = hiltViewModel()
+        SignUpScreen(
+            state = viewModel.state.value,
+            onRegister = viewModel::signUp,
+            onBack = {
+                     navController.popBackStack()
+            },
+            onDismissDialog = viewModel::hideErrorDialog
+        )
     }
 }
 

@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.github.for_the_win.ui.presentation.components.EventDialog
 import com.github.for_the_win.ui.presentation.components.GradientBorderButtonRound
 import com.github.for_the_win.ui.presentation.components.SocialButtons
 import com.github.for_the_win.ui.presentation.signup.SignUpState
@@ -293,7 +294,7 @@ fun SignUpScreen(
                                 color = MaterialTheme.colors.primary,
                                 fontWeight = FontWeight.Bold
                             )
-                        ){
+                        ) {
                             append("Log in")
                         }
                     },
@@ -301,6 +302,10 @@ fun SignUpScreen(
                         onBack()
                     }
                 )
+            }
+
+            if (state.errorMessage != null) {
+                EventDialog(errorMessage = state.errorMessage, onDismiss = onDismissDialog)
             }
         }
     )

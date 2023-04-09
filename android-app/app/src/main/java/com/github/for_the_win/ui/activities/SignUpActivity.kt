@@ -34,7 +34,7 @@ import com.github.for_the_win.ui.presentation.components.GradientBorderButtonRou
 import com.github.for_the_win.ui.presentation.components.SocialButtons
 import com.github.for_the_win.ui.theme.ForthewinTheme
 import com.practice.userlogin.ui.presentation.login.SignUpScreen
-
+/*
 @ExperimentalAnimationApi
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,3 +52,5 @@ class SignUpActivity : ComponentActivity() {
         }
     }
 }
+
+ */

@@ -41,7 +41,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.github.for_the_win.ui.navigation.Destinations
 import com.github.for_the_win.ui.presentation.login.LoginScreen
 import com.github.for_the_win.ui.theme.ForthewinTheme
-
+/*
 @ExperimentalAnimationApi
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,12 +53,14 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //LoginScreen()
+                    LoginScreen()
                 }
             }
         }
     }
 }
+
+ */
 
 
 
