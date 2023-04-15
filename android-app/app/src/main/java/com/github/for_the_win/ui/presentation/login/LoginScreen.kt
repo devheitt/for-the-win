@@ -1,15 +1,11 @@
 package com.github.for_the_win.ui.presentation.login
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -32,14 +28,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.for_the_win.ui.presentation.components.EventDialog
-import com.github.for_the_win.ui.presentation.components.GradientBorderButtonRound
-import com.github.for_the_win.ui.presentation.components.SocialButtons
-import com.github.for_the_win.ui.theme.Blue
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.for_the_win.ui.presentation.components.*
+import com.github.for_the_win.ui.theme.ForthewinTheme
 import com.github.for_the_win.ui.theme.Skyblue
 import com.github.for_the_win.ui.theme.Teal200
+import com.github.for_the_win.ui.theme.TealSkyblue
 import com.practice.for_the_win.R
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -59,165 +58,210 @@ fun LoginScreen(
     val paddingValues = PaddingValues(horizontal = 0.dp, vertical = 12.dp)
     val focusManager = LocalFocusManager.current
 
-    Scaffold(
-        content = {
-            Column(
-                modifier = Modifier
-                    .background(Blue)
-                    .fillMaxSize()
-                    .padding(horizontal = 30.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painterResource(R.drawable.ftw_logo),
-                    contentDescription = "Login Image",
-                    alignment = Alignment.TopCenter,
-                    contentScale = ContentScale.Inside,
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                )
-                OutlinedTextField(
-                    value = emailValue.value,
-                    onValueChange = { emailValue.value = it },
-                    label = { Text("Email") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.moveFocus(FocusDirection.Down)
-                    }),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = passwordValue.value,
-                    onValueChange = { passwordValue.value = it },
-                    label = { Text("Password") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
-                        onLogin(emailValue.value, passwordValue.value)
-                    }),
-                    modifier = Modifier.fillMaxWidth(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                passwordVisibility = !passwordVisibility
-                            }
-                        ) {
-                            Icon(
-                                imageVector = if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = "Toggle Password Icon"
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisibility) {
-                        VisualTransformation.None
-                    } else {
-                        PasswordVisualTransformation()
-                    }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Forgot Password?",
-                    style = MaterialTheme.typography.body1,
-                    color = Skyblue,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier
-                        .align(alignment = Alignment.End)
-                        .clickable {
-                            // Handle forgot password click
-                            // For example, show a dialog with instructions on how to reset the password
-                        }
-                )
-                Spacer(modifier = Modifier.height(25.dp))
-                GradientBorderButtonRound(
-                    text = stringResource(R.string.login_button_text, "LOG IN"),
-                    colors = colors,
-                    paddingValues = paddingValues,
-                    displayProgressBar = state.displayProgressBar,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(
-                            width = 4.dp,
-                            brush = colors,
-                            shape = RoundedCornerShape(percent = 50)
-                        )
-                        // To make the ripple round
-                        .clip(shape = RoundedCornerShape(percent = 50))
-                        .clickable {
-                            onLogin(emailValue.value, passwordValue.value)
-                        }
-                )
-                Spacer(modifier = Modifier.height(25.dp))
-                Text(
-                    text = "Or log in with",
-                    style = MaterialTheme.typography.body1,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(25.dp))
-                SocialButtons()
-                Spacer(modifier = Modifier.height(25.dp))
-                ClickableText(
-                    text = buildAnnotatedString {
-                        append("Do not have an Account?")
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ftw_logo),
+            contentDescription = "Login Image",
+            contentScale = ContentScale.Inside,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
 
-                        withStyle(
-                            style = SpanStyle(
-                                color = MaterialTheme.colors.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("Sign up")
-                        }
-                    }
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            ConstraintLayout {
+
+                val (surface, fab) = createRefs()
+
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(600.dp)
+                        .constrainAs(surface) {
+                            bottom.linkTo(parent.bottom)
+                        },
+                    color = MaterialTheme.colors.surface,
+                    shape = RoundedCornerShape(
+                        topStartPercent = 8,
+                        topEndPercent = 8
+                    )
                 ) {
-                    onNavigateToSignUp()
+                    Column(
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.surface)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
+                                .padding(horizontal = 16.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(
+                                text = "Welcome Back",
+                                style = MaterialTheme.typography.h4.copy(
+                                    fontWeight = FontWeight.Medium
+                                ),
+                                modifier = Modifier
+                                    .textBrush(TealSkyblue)
+                            )
+                            Text(
+                                text = "Login to your Account",
+                                style = MaterialTheme.typography.h5,
+                                color = MaterialTheme.colors.onSurface
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ){
+                            TransparentTextField(
+                                textFieldValue = emailValue,
+                                textLabel = "Email",
+                                keyboardType = KeyboardType.Email,
+                                keyboardActions = KeyboardActions(
+                                    onNext = {
+                                        focusManager.moveFocus(FocusDirection.Down)
+                                    }
+                                ),
+                                imeAction = ImeAction.Next
+                            )
+                            TransparentTextField(
+                                textFieldValue = passwordValue,
+                                textLabel = "Password",
+                                keyboardType = KeyboardType.Password,
+                                keyboardActions = KeyboardActions(
+                                    onDone = {
+                                        focusManager.clearFocus()
+
+                                        onLogin(emailValue.value, passwordValue.value)
+                                    }
+                                ),
+                                imeAction = ImeAction.Done,
+                                trailingIcon = {
+                                    IconButton(
+                                        onClick = {
+                                            passwordVisibility = !passwordVisibility
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = if(passwordVisibility) {
+                                                Icons.Default.Visibility
+                                            } else {
+                                                Icons.Default.VisibilityOff
+                                            },
+                                            contentDescription = "Toggle Password Icon"
+                                        )
+                                    }
+                                },
+                                visualTransformation = if(passwordVisibility) {
+                                    VisualTransformation.None
+                                } else {
+                                    PasswordVisualTransformation()
+                                }
+                            )
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = "Forgot Password?",
+                                style = MaterialTheme.typography.body1.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.primary
+                                ),
+                                textAlign = TextAlign.End
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            GradientBorderButtonRound(
+                                text = stringResource(R.string.login_button_text, "LOG IN"),
+                                colors = colors,
+                                paddingValues = paddingValues,
+                                displayProgressBar = state.displayProgressBar,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 4.dp,
+                                        brush = colors,
+                                        shape = RoundedCornerShape(percent = 50)
+                                    )
+                                    // To make the ripple round
+                                    .clip(shape = RoundedCornerShape(percent = 50))
+                                    .clickable {
+                                        onLogin(emailValue.value, passwordValue.value)
+                                    }
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = "Or log in with",
+                                style = MaterialTheme.typography.body1,
+                                color = Color.White
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            SocialButtons()
+                            Spacer(modifier = Modifier.height(10.dp))
+                            ClickableText(
+                                text = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.White
+                                        )
+                                    ) {
+                                        append("Do not have an Account? ")
+                                    }
+
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = MaterialTheme.colors.primary,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    ) {
+                                        append("Sign up")
+                                    }
+                                }
+                            ) {
+                                onNavigateToSignUp()
+                            }
+                        }
+
+                    }
                 }
             }
         }
-    )
 
-    if (state.errorMessage != null) {
-        EventDialog(
-            errorMessage = state.errorMessage,
-            onDismiss = onDismissDialog
-        )
+
+        if (state.errorMessage != null) {
+            EventDialog(
+                errorMessage = state.errorMessage,
+                onDismiss = onDismissDialog
+            )
+        }
     }
 }
 
-/*
 
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
     ForthewinTheme {
-        LoginScreen()
+        val viewModel: LoginViewModel = hiltViewModel()
+        LoginScreen(
+            state = viewModel.state.value,
+            onLogin = { _, _ -> },
+            onNavigateToSignUp = { },
+            onDismissDialog = { }
+        )
     }
 }
-
- */

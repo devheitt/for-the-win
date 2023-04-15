@@ -35,11 +35,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.for_the_win.ui.presentation.components.EventDialog
 import com.github.for_the_win.ui.presentation.components.GradientBorderButtonRound
 import com.github.for_the_win.ui.presentation.components.SocialButtons
+import com.github.for_the_win.ui.presentation.components.TransparentTextField
 import com.github.for_the_win.ui.presentation.signup.SignUpState
+import com.github.for_the_win.ui.presentation.signup.SignUpViewModel
+import com.github.for_the_win.ui.theme.ForthewinTheme
 import com.github.for_the_win.ui.theme.Skyblue
 import com.github.for_the_win.ui.theme.Teal200
 import com.practice.for_the_win.R
@@ -70,10 +75,10 @@ fun SignUpScreen(
         content = {
             Column(
                 modifier = Modifier
-                    .background(Color(0xFF1E4564))
-                    .fillMaxSize()
-                    .padding(horizontal = 30.dp),
-                verticalArrangement = Arrangement.Top,
+                    .background(MaterialTheme.colors.background)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -85,223 +90,160 @@ fun SignUpScreen(
                         .fillMaxWidth(0.5f)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = usernameValue.value,
-                    onValueChange = { usernameValue.value = it },
-                    label = { Text("Username") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ){
+                    TransparentTextField(
+                        textFieldValue = usernameValue,
+                        textLabel = "Name",
                         keyboardType = KeyboardType.Text,
+                        keyboardActions = KeyboardActions(
+                            onNext = {
+                                focusManager.moveFocus(FocusDirection.Down)
+                            }
+                        ),
                         imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = emailValue.value,
-                    onValueChange = { emailValue.value = it },
-                    label = { Text("Email") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
+                    )
+                    TransparentTextField(
+                        textFieldValue = emailValue,
+                        textLabel = "Email",
                         keyboardType = KeyboardType.Email,
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
                         imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = phoneValue.value,
-                    onValueChange = {
-                        if (phoneValue.value.length <= 10) phoneValue.value = it
-                        else Toast.makeText(
-                            context,
-                            "Cannot be more than 10 Characters",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    label = { Text("Phone Number") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
+                    )
+                    TransparentTextField(
+                        textFieldValue = phoneValue,
+                        textLabel = "Phone Number",
+                        maxChar = 10,
                         keyboardType = KeyboardType.Phone,
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
                         imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = passwordValue.value,
-                    onValueChange = { passwordValue.value = it },
-                    label = { Text("Password") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
+                    )
+                    TransparentTextField(
+                        textFieldValue = passwordValue,
+                        textLabel = "Password",
                         keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                passwordVisibility = !passwordVisibility
+                        keyboardActions = KeyboardActions(
+                            onNext = {
+                                focusManager.moveFocus(FocusDirection.Down)
                             }
-                        ) {
-                            Icon(
-                                imageVector = if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = "Toggle Password Icon"
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
-
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = confirmPasswordValue.value,
-                    onValueChange = { confirmPasswordValue.value = it },
-                    label = { Text("Confirm Password") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Skyblue,
-                        unfocusedBorderColor = Color.White,
-                        focusedLabelColor = Skyblue,
-                        unfocusedLabelColor = Color.White,
-                        textColor = Color.White,
-                        disabledTextColor = Color.Black,
-                        cursorColor = Skyblue
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions.Default.copy(
+                        ),
+                        imeAction = ImeAction.Next,
+                        trailingIcon = {
+                            IconButton(
+                                onClick = {
+                                    passwordVisibility = !passwordVisibility
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = if (passwordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                    contentDescription = "Toggle Password Icon"
+                                )
+                            }
+                        },
+                        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
+                    )
+                    TransparentTextField(
+                        textFieldValue = confirmPasswordValue,
+                        textLabel = "Confirm Password",
                         keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
 
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-
-                            onRegister(
-                                usernameValue.value,
-                                emailValue.value,
-                                phoneValue.value,
-                                passwordValue.value,
-                                confirmPasswordValue.value
-                            )
-                        }
-                    ),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = {
-                                confirmPasswordVisibility = !confirmPasswordVisibility
+                                onRegister(
+                                    usernameValue.value,
+                                    emailValue.value,
+                                    phoneValue.value,
+                                    passwordValue.value,
+                                    confirmPasswordValue.value
+                                )
                             }
-                        ) {
-                            Icon(
-                                imageVector = if (confirmPasswordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = "Toggle Password Icon"
+                        ),
+                        imeAction = ImeAction.Done,
+                        trailingIcon = {
+                            IconButton(
+                                onClick = {
+                                    confirmPasswordVisibility = !confirmPasswordVisibility
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = if (confirmPasswordVisibility) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                    contentDescription = "Toggle Password Icon"
+                                )
+                            }
+                        },
+                        visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation()
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    GradientBorderButtonRound(
+                        text = stringResource(R.string.signup_button_texts, "SIGN UP"),
+                        colors = colors,
+                        paddingValues = paddingValues,
+                        displayProgressBar = state.displayProgressBar,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = 4.dp,
+                                brush = colors,
+                                shape = RoundedCornerShape(percent = 50)
                             )
-                        }
-                    },
-                    visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation()
-                )
-                Spacer(modifier = Modifier.height(25.dp))
-                GradientBorderButtonRound(
-                    text = stringResource(R.string.signup_button_texts, "SIGN UP"),
-                    colors = colors,
-                    paddingValues = paddingValues,
-                    displayProgressBar = state.displayProgressBar,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(
-                            width = 4.dp,
-                            brush = colors,
-                            shape = RoundedCornerShape(percent = 50)
-                        )
-                        // To make the ripple round
-                        .clip(shape = RoundedCornerShape(percent = 50))
-                        .clickable {
-                            onRegister(
-                                usernameValue.value,
-                                emailValue.value,
-                                phoneValue.value,
-                                passwordValue.value,
-                                confirmPasswordValue.value
-                            )
-                        }
+                            // To make the ripple round
+                            .clip(shape = RoundedCornerShape(percent = 50))
+                            .clickable {
+                                onRegister(
+                                    usernameValue.value,
+                                    emailValue.value,
+                                    phoneValue.value,
+                                    passwordValue.value,
+                                    confirmPasswordValue.value
+                                )
+                            }
 
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "Or sign up with",
-                    style = MaterialTheme.typography.body1,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                SocialButtons()
-                Spacer(modifier = Modifier.height(25.dp))
-                ClickableText(
-                    text = buildAnnotatedString {
-                        append("Already have an account?")
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Or sign up with",
+                        style = MaterialTheme.typography.body1,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SocialButtons()
+                    Spacer(modifier = Modifier.height(10.dp))
+                    ClickableText(
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White
+                                )
+                            ) {
+                                append("Already have an account? ")
+                            }
 
-                        withStyle(
-                            style = SpanStyle(
-                                color = MaterialTheme.colors.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("Log in")
+
+                            withStyle(
+                                style = SpanStyle(
+                                    color = MaterialTheme.colors.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append("Log in")
+                            }
+                        },
+                        onClick = {
+                            onBack()
                         }
-                    },
-                    onClick = {
-                        onBack()
-                    }
-                )
+                    )
+                }
+
             }
 
             if (state.errorMessage != null) {
@@ -311,14 +253,17 @@ fun SignUpScreen(
     )
 }
 
-/*
 
 @Preview(showBackground = true)
 @Composable
 fun SignUpPreview() {
     ForthewinTheme {
-        SignUpScreen()
+        val viewModel: SignUpViewModel = hiltViewModel()
+        SignUpScreen(
+            state = viewModel.state.value,
+            onRegister = { _, _, _, _, _ -> },
+            onBack = { },
+            onDismissDialog = { }
+        )
     }
 }
-
- */

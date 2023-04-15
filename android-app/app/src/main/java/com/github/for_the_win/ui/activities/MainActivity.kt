@@ -4,11 +4,12 @@ package com.github.for_the_win.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,7 +24,6 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.practice.userlogin.ui.presentation.login.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.accompanist.navigation.animation.navigation
 
 
 @ExperimentalAnimationApi
@@ -64,16 +64,10 @@ fun NavGraphBuilder.addLogin(
                 initialOffsetX = { 1000 },
                 animationSpec = tween(500)
             )
-            fadeIn(
-                animationSpec = tween(500)
-            )
         },
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -1000 },
-                animationSpec = tween(500)
-            )
-            fadeOut(
                 animationSpec = tween(500)
             )
         },
@@ -82,16 +76,10 @@ fun NavGraphBuilder.addLogin(
                 initialOffsetX = { -1000 },
                 animationSpec = tween(500)
             )
-            fadeIn(
-                animationSpec = tween(500)
-            )
         },
         popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { 1000 },
-                animationSpec = tween(500)
-            )
-            fadeOut(
                 animationSpec = tween(500)
             )
         }
@@ -125,6 +113,7 @@ fun NavGraphBuilder.addSignUp(
 ) {
     composable(
         route = Destinations.SignUp.route,
+
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { 1000 },
@@ -150,17 +139,20 @@ fun NavGraphBuilder.addSignUp(
             )
         }
     ) {
-
         val viewModel: SignUpViewModel = hiltViewModel()
+
         SignUpScreen(
             state = viewModel.state.value,
             onRegister = viewModel::signUp,
             onBack = {
-                     navController.popBackStack()
+                navController.popBackStack()
             },
             onDismissDialog = viewModel::hideErrorDialog
         )
+
     }
+
+
 }
 
 
